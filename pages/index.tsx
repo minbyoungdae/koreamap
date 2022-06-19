@@ -3,12 +3,12 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
-import Marks from './Marks';
-import { useData } from './useData';
+import Marks from '../components/Marks';
+import ContentsList from '../components/ContentsList';
+import { useData } from '../components/useData';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
 import { useState } from 'react';
-import handler from './api/hello';
 
 const width = 960;
 const height = 500;
@@ -34,6 +34,7 @@ const PopupInner = styled.div`
   margin: auto;
   background: white;
   z-index: 1000;
+  overflow: auto;
 `;
 
 const Home: NextPage = () => {
@@ -42,6 +43,7 @@ const Home: NextPage = () => {
   const handlerPopup = () => {
     setPopup(!Popup);
   };
+  const [popupDate, setPopupDate] = useState();
 
   if (!data) {
     return <pre>Loading...</pre>;
@@ -50,7 +52,7 @@ const Home: NextPage = () => {
     <>
       <div style={{ margin: '0 auto', width: '700px' }}>
         <svg width="700px" height="700px">
-          <Marks data={data} handlerPopup={handlerPopup} />
+          <Marks data={data} handlerPopup={handlerPopup} setPopupDate={setPopupDate} />
         </svg>
         <ReactTooltip
           id="happyFace"
@@ -66,7 +68,7 @@ const Home: NextPage = () => {
                 event.stopPropagation();
               }}
             >
-              aaa
+              <ContentsList popupDate={popupDate} />
             </PopupInner>
           </PopupStyle>
         </>

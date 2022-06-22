@@ -26,7 +26,7 @@ const initialY = 4050; //초기 위치값 Y
 const projection = d3.geoMercator().scale(initialScale).translate([initialX, initialY]);
 const path = geoPath(projection);
 
-const Marks = ({ data, handlerPopup, setPopupDate }: any) => {
+const Marks = ({ data, handlerPopup, setPopupDate, popupDate, marking, setMarking }: any) => {
   const array: any = {};
   data.features.map((dd: any, index: any) => {
     array[index] = '';
@@ -42,6 +42,13 @@ const Marks = ({ data, handlerPopup, setPopupDate }: any) => {
       localStorage.setItem('color', JSON.stringify({ ...color, [index]: 'select' }));
     }
   };
+
+  useEffect(() => {
+    if (marking) {
+      click(popupDate.index);
+      setMarking(false);
+    }
+  }, [marking]);
 
   useEffect(() => {
     if (localStorage.getItem('color')) {
@@ -63,7 +70,7 @@ const Marks = ({ data, handlerPopup, setPopupDate }: any) => {
               d={path(feature)}
               onClick={() => {
                 handlerPopup();
-                setPopupDate(feature.properties.code);
+                setPopupDate({ code: feature.properties.code, index });
               }}
               className={color[index]}
               data-tip={feature.properties.name}

@@ -10,9 +10,6 @@ import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
 import { useState } from 'react';
 
-const width = 960;
-const height = 500;
-
 const PopupStyle = styled.div`
   position: fixed;
   width: 100%;
@@ -35,11 +32,16 @@ const PopupInner = styled.div`
   background: white;
   z-index: 1000;
   overflow: auto;
+  width: 60vw;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
 `;
 
 const Home: NextPage = () => {
   const data = useData();
   const [Popup, setPopup] = useState(false);
+  const [marking, setMarking] = useState(false);
   const handlerPopup = () => {
     setPopup(!Popup);
   };
@@ -50,9 +52,19 @@ const Home: NextPage = () => {
   }
   return (
     <>
-      <div style={{ margin: '0 auto', width: '700px' }}>
-        <svg width="700px" height="700px">
-          <Marks data={data} handlerPopup={handlerPopup} setPopupDate={setPopupDate} />
+      <div style={{ display: 'flex', height: '100vh' }}>
+        <div style={{ backgroundColor: '#222', width: '20vw', textAlign: 'center' }}>
+          <h1 style={{ color: '#fff', marginTop: '200px' }}>Korea Map</h1>
+        </div>
+        <svg width="700px" height="100%" style={{ margin: 'auto', paddingTop: '50px' }}>
+          <Marks
+            data={data}
+            handlerPopup={handlerPopup}
+            popupDate={popupDate}
+            setPopupDate={setPopupDate}
+            setMarking={setMarking}
+            marking={marking}
+          />
         </svg>
         <ReactTooltip
           id="happyFace"
@@ -68,7 +80,7 @@ const Home: NextPage = () => {
                 event.stopPropagation();
               }}
             >
-              <ContentsList popupDate={popupDate} />
+              <ContentsList popupDate={popupDate} setMarking={setMarking} />
             </PopupInner>
           </PopupStyle>
         </>

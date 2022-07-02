@@ -41,7 +41,7 @@ const ContentsList = ({ popupDate, setMarking }: any) => {
     }).then((item: any) => {
       getAreaCode(item[0].areaCode).then((res) => {
         if (res.status === 200) {
-          const list = res.data.response.body.items.item;
+          const list = res?.data?.response?.body?.items?.item;
           // console.log(list);
           let code = -1;
           list.map((object: any) => {
